@@ -1,11 +1,15 @@
 [![Review Assignment Due Date](https://classroom.github.com/assets/deadline-readme-button-22041afd0340ce965d47ae6ef1cefeee28c7c493a6346c4f15d667ab976d596c.svg)](https://classroom.github.com/a/PzXEPZ_E)
-#Proyecto Parcial II Corte - Byte Me
-###Integrantes
--**SOFY ALEJANDRA PRADA MURILLO** '0000336152'
--**ESTEBAN SEQUEDA HENAO** '0000328378'
-###Links del proyecto
--**LINK FE:** parcial-ii-corte-fe-byte-me.vercel.app
--**LINK BE:** https://parcial-ii-corte-be-byte-me.onrender.com
+# Proyecto Parcial II Corte - Byte Me
+
+### Integrantes 👥
+- **Sofy Alejandra Prada Murillo** - `0000336152`
+- **Esteban Sequeda Henao** - `0000328378`
+
+### Links del Proyecto 🔗
+
+- **Frontend (FE):** [parcial-ii-corte-fe-byte-me.vercel.app](https://parcial-ii-corte-fe-byte-me.vercel.app)
+- **Backend (BE):** [parcial-ii-corte-be-byte-me.onrender.com](https://parcial-ii-corte-be-byte-me.onrender.com)
+  
 # 📝 Enunciado del examen
 
 Vas a construir una **arquitectura de tres capas**:
