@@ -256,16 +256,14 @@
             Busca tu pokémon favorito
         </h1>
 
-        <!-- Sección de autenticación -->
+       
         <div class="auth-section active" id="authSection">
             <p class="status">Por favor, inicia sesión para continuar</p>
             <button onclick="login()">Iniciar Sesión</button>
         </div>
 
-        <!-- Sección de búsqueda de Pokémon -->
         <div class="pokemon-section" id="pokemonSection">
             <div class="pokemon-content">
-                <!-- Columna izquierda: Buscador -->
                 <div class="search-column">
                     <h3 style="color: #2d3748; font-size: 1.2em; margin-bottom: 20px; font-weight: 600;">Buscar Pokémon</h3>
                     <div class="search-form">
@@ -280,7 +278,6 @@
                     <button class="logout-btn" onclick="logout()">Cerrar Sesión</button>
                 </div>
 
-                <!-- Columna derecha: Resultados -->
                 <div class="result-column empty" id="resultColumn">
                     <div class="error-message" id="errorMessage">
                         Ups! Pokémon no encontrado
@@ -304,12 +301,10 @@
     </div>
 
     <script>
-        // CONFIGURACIÓN - Reemplaza estas variables con tus valores reales
-        const API_BASE_URL = 'https://parcial-ii-corte-be-byte-me.onrender.com'; // Cambia esto por tu URL de backend desplegado
+        const API_BASE_URL = 'https://parcial-ii-corte-be-byte-me.onrender.com';
         const ADMIN_EMAIL = 'admin@admin.com';
         const ADMIN_PASSWORD = 'admin';
 
-        // Verificar si ya hay una sesión activa al cargar la página
         window.onload = function() {
             const token = localStorage.getItem('sessionToken');
             if (token) {
@@ -317,7 +312,6 @@
             }
         };
 
-        // Función de login
         async function login() {
             try {
                 const response = await fetch(`${API_BASE_URL}/api/v1/auth`, {
@@ -334,7 +328,6 @@
                 const data = await response.json();
 
                 if (response.status === 200) {
-                    // Guardar token en localStorage
                     localStorage.setItem('sessionToken', data.token);
                     showPokemonSection();
                 } else {
@@ -344,8 +337,7 @@
                 alert('Error al conectar con el servidor: ' + error.message);
             }
         }
-
-        // Función para buscar Pokémon
+n
         async function searchPokemon() {
             const pokemonName = document.getElementById('pokemonNameInput').value.trim();
 
@@ -383,7 +375,7 @@
                 }
 
                 if (response.status === 200 && data.name) {
-                    // Mostrar resultado
+                    
                     document.getElementById('pokemonImage').src = data.img_url;
                     document.getElementById('pokemonName').textContent = data.name;
                     document.getElementById('pokemonSpecies').textContent = data.species;
@@ -394,7 +386,7 @@
                     document.getElementById('emptyState').style.display = 'none';
                     document.getElementById('resultColumn').classList.remove('empty');
                 } else {
-                    // Pokémon no encontrado
+                    
                     document.getElementById('pokemonResult').classList.remove('show');
                     document.getElementById('errorMessage').classList.add('show');
                     document.getElementById('emptyState').style.display = 'none';
@@ -404,7 +396,7 @@
             }
         }
 
-        // Función para cerrar sesión
+       
         function logout() {
             localStorage.removeItem('sessionToken');
             showAuthSection();
@@ -415,7 +407,7 @@
             document.getElementById('resultColumn').classList.add('empty');
         }
 
-        // Funciones auxiliares para mostrar/ocultar secciones
+       
         function showPokemonSection() {
             document.getElementById('authSection').classList.remove('active');
             document.getElementById('pokemonSection').classList.add('active');
