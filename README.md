@@ -1,8 +1,8 @@
 [![Review Assignment Due Date](https://classroom.github.com/assets/deadline-readme-button-22041afd0340ce965d47ae6ef1cefeee28c7c493a6346c4f15d667ab976d596c.svg)](https://classroom.github.com/a/PzXEPZ_E)
-#SOFY ALEJANDRA PRADA MURILLO, 0000336152
-#ESTEBAN SEQUEDA HENAO, 0000328378
-#LINK FE: parcial-ii-corte-fe-byte-me.vercel.app
-#LINK BE: https://parcial-ii-corte-be-byte-me.onrender.com
+*SOFY ALEJANDRA PRADA MURILLO, 0000336152
+*ESTEBAN SEQUEDA HENAO, 0000328378
+*LINK FE: parcial-ii-corte-fe-byte-me.vercel.app
+*LINK BE: https://parcial-ii-corte-be-byte-me.onrender.com
 # 📝 Enunciado del examen
 
 Vas a construir una **arquitectura de tres capas**:
