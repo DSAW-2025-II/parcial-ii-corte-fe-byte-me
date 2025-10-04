@@ -1,0 +1,424 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pokémon App</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: #f5f7fa;
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+            overflow: hidden;
+        }
+
+        .container {
+            background: #ffffff;
+            border-radius: 12px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.07), 0 10px 20px rgba(0,0,0,0.06);
+            padding: 30px 40px;
+            max-width: 1200px;
+            width: 100%;
+            max-height: 95vh;
+            border: 1px solid #e1e8ed;
+            overflow-y: auto;
+        }
+
+        h1 {
+            color: #1a202c;
+            text-align: center;
+            margin-bottom: 20px;
+            font-size: 1.8em;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 15px;
+        }
+
+        .pokemon-logo {
+            height: 50px;
+            width: auto;
+        }
+
+        .auth-section, .pokemon-section {
+            display: none;
+        }
+
+        .auth-section.active, .pokemon-section.active {
+            display: block;
+        }
+
+        .auth-section {
+            max-width: 300px;
+            margin: 0 auto;
+        }
+
+        button {
+            background: #4f46e5;
+            color: white;
+            border: none;
+            padding: 12px 28px;
+            border-radius: 8px;
+            font-size: 15px;
+            font-weight: 500;
+            cursor: pointer;
+            width: 100%;
+            margin-top: 10px;
+            transition: all 0.2s;
+        }
+
+        button:hover {
+            background: #4338ca;
+            transform: translateY(-1px);
+            box-shadow: 0 4px 12px rgba(79, 70, 229, 0.3);
+        }
+
+        button:active {
+            transform: translateY(0);
+        }
+
+        input {
+            width: 100%;
+            padding: 12px 16px;
+            border: 1px solid #cbd5e0;
+            border-radius: 8px;
+            font-size: 15px;
+            margin-top: 10px;
+            transition: all 0.2s;
+            background: #ffffff;
+            color: #1a202c;
+        }
+
+        input::placeholder {
+            color: #a0aec0;
+        }
+
+        input:focus {
+            outline: none;
+            border-color: #4f46e5;
+            box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.1);
+        }
+
+        .pokemon-result {
+            display: none;
+            width: 100%;
+        }
+
+        .pokemon-result.show {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            animation: fadeIn 0.5s;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .pokemon-image-container {
+            text-align: center;
+            margin-bottom: 25px;
+        }
+
+        .pokemon-image {
+            width: 200px;
+            height: 200px;
+            background: #ffffff;
+            border-radius: 12px;
+            border: 1px solid #e2e8f0;
+            padding: 15px;
+        }
+
+        .pokemon-info {
+            width: 100%;
+            background: #ffffff;
+            padding: 25px;
+            border-radius: 12px;
+            border: 1px solid #e2e8f0;
+            text-align: left;
+        }
+
+        .pokemon-info p {
+            margin: 14px 0;
+            font-size: 15px;
+            color: #4a5568;
+            line-height: 1.6;
+        }
+
+        .pokemon-info strong {
+            color: #2d3748;
+            font-weight: 600;
+        }
+
+        .error-message {
+            background: #fee2e2;
+            color: #991b1b;
+            padding: 16px;
+            border-radius: 8px;
+            margin-top: 20px;
+            display: none;
+            text-align: center;
+            border: 1px solid #fecaca;
+        }
+
+        .error-message.show {
+            display: block;
+            animation: fadeIn 0.5s;
+        }
+
+        .status {
+            text-align: center;
+            color: #718096;
+            margin-top: 20px;
+            font-size: 14px;
+            font-weight: 400;
+        }
+
+        .logout-btn {
+            background: #dc2626;
+            margin-top: 20px;
+            color: white;
+        }
+
+        .logout-btn:hover {
+            background: #b91c1c;
+        }
+
+        @media (max-width: 768px) {
+            .pokemon-result.show {
+                flex-direction: column;
+            }
+
+            .pokemon-image-container {
+                flex: none;
+            }
+        }
+
+        .search-form {
+            margin-top: 20px;
+        }
+
+        .pokemon-content {
+            display: grid;
+            grid-template-columns: 1fr 2fr;
+            gap: 30px;
+            margin-top: 20px;
+        }
+
+        .search-column {
+            background: #f7fafc;
+            padding: 25px;
+            border-radius: 12px;
+            border: 1px solid #e2e8f0;
+            height: fit-content;
+        }
+
+        .result-column {
+            background: #f7fafc;
+            padding: 25px;
+            border-radius: 12px;
+            border: 1px solid #e2e8f0;
+            height: 70vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .result-column.empty {
+            color: #a0aec0;
+            font-size: 15px;
+        }
+
+        @media (max-width: 768px) {
+            .pokemon-content {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>
+            <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/9/98/International_Pok%C3%A9mon_logo.svg/1200px-International_Pok%C3%A9mon_logo.svg.png" alt="Pokémon" class="pokemon-logo">
+            Busca tu pokémon favorito
+        </h1>
+
+       
+        <div class="auth-section active" id="authSection">
+            <p class="status">Por favor, inicia sesión para continuar</p>
+            <button onclick="login()">Iniciar Sesión</button>
+        </div>
+
+        <div class="pokemon-section" id="pokemonSection">
+            <div class="pokemon-content">
+                <div class="search-column">
+                    <h3 style="color: #2d3748; font-size: 1.2em; margin-bottom: 20px; font-weight: 600;">Buscar Pokémon</h3>
+                    <div class="search-form">
+                        <input
+                            type="text"
+                            id="pokemonNameInput"
+                            placeholder="Ingresa el nombre del Pokémon"
+                            onkeypress="if(event.key === 'Enter') searchPokemon()"
+                        >
+                        <button onclick="searchPokemon()">Buscar Pokémon</button>
+                    </div>
+                    <button class="logout-btn" onclick="logout()">Cerrar Sesión</button>
+                </div>
+
+                <div class="result-column empty" id="resultColumn">
+                    <div class="error-message" id="errorMessage">
+                        Ups! Pokémon no encontrado
+                    </div>
+
+                    <div class="pokemon-result" id="pokemonResult">
+                        <div class="pokemon-image-container">
+                            <img id="pokemonImage" class="pokemon-image" src="" alt="">
+                        </div>
+                        <div class="pokemon-info">
+                            <p><strong>Nombre:</strong> <span id="pokemonName"></span></p>
+                            <p><strong>Especie:</strong> <span id="pokemonSpecies"></span></p>
+                            <p><strong>Peso:</strong> <span id="pokemonWeight"></span> kg</p>
+                        </div>
+                    </div>
+
+                    <p id="emptyState">Busca un Pokémon para ver sus detalles</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const API_BASE_URL = 'https://parcial-ii-corte-be-byte-me.onrender.com';
+        const ADMIN_EMAIL = 'admin@admin.com';
+        const ADMIN_PASSWORD = 'admin';
+
+        window.onload = function() {
+            const token = localStorage.getItem('sessionToken');
+            if (token) {
+                showPokemonSection();
+            }
+        };
+
+        async function login() {
+            try {
+                const response = await fetch(`${API_BASE_URL}/api/v1/auth`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        email: ADMIN_EMAIL,
+                        password: ADMIN_PASSWORD
+                    })
+                });
+
+                console.log("Status:", response.status); 
+                const data = await response.json();
+                console.log("Data:", data);
+
+                if (response.status === 200) {
+                    localStorage.setItem('sessionToken', data.token);
+                    showPokemonSection();
+                } else {
+                    alert('Error de autenticación: ' + data.error);
+                }
+            } catch (error) {
+                alert('Error al conectar con el servidor: ' + error.message);
+            }
+        }
+
+        async function searchPokemon() {
+            const pokemonName = document.getElementById('pokemonNameInput').value.trim();
+
+            if (!pokemonName) {
+                alert('Por favor ingresa un nombre de Pokémon');
+                return;
+            }
+
+            const token = localStorage.getItem('sessionToken');
+
+            if (!token) {
+                alert('No estás autenticado');
+                showAuthSection();
+                return;
+            }
+
+            try {
+                const response = await fetch(`${API_BASE_URL}/api/v1/pokemonDetails`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${token}`
+                    },
+                    body: JSON.stringify({
+                        pokemonName: pokemonName
+                    })
+                });
+
+                const data = await response.json();
+
+                if (response.status === 403) {
+                    alert('Sesión expirada. Por favor inicia sesión nuevamente.');
+                    logout();
+                    return;
+                }
+
+                if (response.status === 200 && data.name) {
+                    
+                    document.getElementById('pokemonImage').src = data.img_url;
+                    document.getElementById('pokemonName').textContent = data.name;
+                    document.getElementById('pokemonSpecies').textContent = data.species;
+                    document.getElementById('pokemonWeight').textContent = data.weight;
+
+                    document.getElementById('pokemonResult').classList.add('show');
+                    document.getElementById('errorMessage').classList.remove('show');
+                    document.getElementById('emptyState').style.display = 'none';
+                    document.getElementById('resultColumn').classList.remove('empty');
+                } else {
+                    
+                    document.getElementById('pokemonResult').classList.remove('show');
+                    document.getElementById('errorMessage').classList.add('show');
+                    document.getElementById('emptyState').style.display = 'none';
+                }
+            } catch (error) {
+                alert('Error al buscar el Pokémon: ' + error.message);
+            }
+        }
+
+       
+        function logout() {
+            localStorage.removeItem('sessionToken');
+            showAuthSection();
+            document.getElementById('pokemonNameInput').value = '';
+            document.getElementById('pokemonResult').classList.remove('show');
+            document.getElementById('errorMessage').classList.remove('show');
+            document.getElementById('emptyState').style.display = 'block';
+            document.getElementById('resultColumn').classList.add('empty');
+        }
+
+       
+        function showPokemonSection() {
+            document.getElementById('authSection').classList.remove('active');
+            document.getElementById('pokemonSection').classList.add('active');
+        }
+
+        function showAuthSection() {
+            document.getElementById('pokemonSection').classList.remove('active');
+            document.getElementById('authSection').classList.add('active');
+        }
+    </script>
+</body>
+</html>
